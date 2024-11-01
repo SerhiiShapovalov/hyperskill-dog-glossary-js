@@ -3,6 +3,7 @@ const breedButton = document.getElementById("button-show-breed");
 const contentDiv = document.getElementById("content");
 const breedInput = document.getElementById("input-breed");
 const subBreedButton = document.getElementById("button-show-sub-breed");
+const allBreedsButton = document.getElementById("button-show-all");
 
 let breedList = [];
 
@@ -93,9 +94,43 @@ async function fetchSubBreeds() {
   }
 }
 
+async function fetchAllBreeds() {
+  try {
+    const response = await fetch("https://dog.ceo/api/breeds/list/all");
+    const data = await response.json();
+
+    if (data.status === "success") {
+      const breeds = data.message;
+      let listHTML = "<ol>";
+
+      for (const breed in breeds) {
+        listHTML += `<li>${breed}`;
+        if (breeds[breed].length > 0) {
+          listHTML += "<ul>";
+          breeds[breed].forEach((subBreed) => {
+            listHTML += `<li>${subBreed}</li>`;
+          });
+          listHTML += "</ul>";
+        }
+        listHTML += "</li>";
+      }
+
+      listHTML += "</ol>";
+      contentDiv.innerHTML = listHTML;
+    } else {
+      contentDiv.innerHTML =
+        "<p>An error occurred while fetching the breeds list.</p>";
+    }
+  } catch (error) {
+    console.error("Error fetching all breeds:", error);
+    contentDiv.innerHTML = "<p>An error occurred. Please try again.</p>";
+  }
+}
+
 randomButton.addEventListener("click", fetchRandomDogImage);
 breedButton.addEventListener("click", fetchBreedDogImage);
 subBreedButton.addEventListener("click", fetchSubBreeds);
+allBreedsButton.addEventListener("click", fetchAllBreeds);
 
 (async function initialize() {
   await fetchBreedList();
