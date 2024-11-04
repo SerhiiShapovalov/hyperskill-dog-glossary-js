@@ -22,11 +22,16 @@
     <h1>Dog Glossary</h1>
     <button id="button-random-dog">Show Random Dog</button>
     <label for="input-breed">Breed:</label>
-    <input id="input-breed" placeholder="Enter a breed" type="text" />
+    <div class="input-container">
+      <input id="input-breed" placeholder="Enter a breed" type="text" />
+      <span class="clear-button" onclick="clearInput()">×</span>
+    </div>
     <button id="button-show-breed">Show Breed</button>
     <button id="button-show-sub-breed">Show Sub-Breed</button>
     <button id="button-show-all">Show All Breeds</button>
-    <div id="content"></div>
+    <div id="content">
+      <div id="loading-indicator" style="display: none">Loading...</div>
+    </div>
 
     <script src="script.js"></script>
   </body>
